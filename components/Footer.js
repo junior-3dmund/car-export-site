@@ -5,7 +5,7 @@ export default function Footer() {
         <div>
           <p className="font-display font-bold text-lg mb-2">Kingdom AutoMobile Dealership</p>
           <p className="text-silver">
-            Sourcing and shipping vehicles to buyers worldwide.
+            Buy your vehicle at the comfort of your home, office or anywhere in Ghana
           </p>
         </div>
         <div>
