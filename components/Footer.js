@@ -3,7 +3,7 @@ export default function Footer() {
     <footer id="contact" className="border-t border-steel2 mt-24">
       <div className="max-w-6xl mx-auto px-6 py-12 grid gap-8 sm:grid-cols-3 text-sm">
         <div>
-          <p className="font-display font-bold text-lg mb-2">Route One Motors</p>
+          <p className="font-display font-bold text-lg mb-2">Kingdom AutoMobile Dealership</p>
           <p className="text-silver">
             Sourcing and shipping vehicles to buyers worldwide.
           </p>
@@ -19,7 +19,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="text-center text-xs text-silver pb-6">
-        © {new Date().getFullYear()} Route One Motors. All rights reserved.
+        © {new Date().getFullYear()} Kingdom AutoMobile Dealership. All rights reserved.
       </div>
     </footer>
   );

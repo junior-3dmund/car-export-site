@@ -5,7 +5,7 @@ export default function Navbar() {
     <header className="border-b border-steel2 bg-charcoal/95 backdrop-blur sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link href="/" className="font-display text-xl font-bold tracking-tight">
-          Route One <span className="text-ignition">Motors</span>
+          Kingdom AutoMobile <span className="text-ignition">Dealership</span>
         </Link>
         <nav className="flex items-center gap-6 text-sm text-silver">
           <Link href="/cars" className="hover:text-offwhite transition-colors">

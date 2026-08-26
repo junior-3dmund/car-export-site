@@ -16,7 +16,7 @@ const mono = IBM_Plex_Mono({
 });
 
 export const metadata = {
-  title: "Route One Motors | Global Car Export",
+  title: "Kingdom AutoMobile Dealership | Global Car Export",
   description:
     "Buy new and low-mileage vehicles for export, shipped worldwide from verified ports."
 };
