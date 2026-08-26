@@ -1,6 +1,7 @@
 import SearchBar from "@/components/SearchBar";
 import CarCard from "@/components/CarCard";
 import { getCars } from "@/lib/cars";
+import { Suspense } from "react";
 
 export default async function HomePage() {
   const cars = (await getCars()).slice(0, 3);
@@ -18,7 +19,9 @@ export default async function HomePage() {
           direct line to a sales agent.
         </p>
         <div className="mt-8">
-          <SearchBar />
+          <Suspense fallback={<div className="h-12 w-full max-w-xl rounded-sm bg-steel/60" />}>
+            <SearchBar />
+          </Suspense>
         </div>
         <div className="route-line mt-12 max-w-3xl" />
       </section>
