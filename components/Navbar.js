@@ -11,7 +11,7 @@ export default function Navbar() {
           <Link href="/cars" className="hover:text-offwhite transition-colors">
             Inventory
           </Link>
-          <Link href="/#contact" className="hover:text-offwhite transition-colors">
+          <Link href="/contact" className="hover:text-offwhite transition-colors">
             Contact
           </Link>
           <Link
