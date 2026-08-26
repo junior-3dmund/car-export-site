@@ -10,8 +10,8 @@ export default function Footer() {
         </div>
         <div>
           <p className="text-offwhite font-medium mb-2">Contact</p>
-          <p className="text-silver">sales@routeonemotors.com</p>
-          <p className="text-silver">+000 000 0000</p>
+          <p className="text-silver">kingzamazingimport@gmail.com</p>
+          <p className="text-silver">+233 55 188 9899</p>
         </div>
         <div>
           <p className="text-offwhite font-medium mb-2">Shipping ports</p>
