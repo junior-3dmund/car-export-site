@@ -14,9 +14,7 @@ export default async function HomePage() {
           Buy the car. We handle the ocean in between.
         </h1>
         <p className="text-silver mt-5 max-w-xl">
-          New and low-mileage vehicles, sourced and shipped to buyers in over
-          40 countries. Every listing includes real specs, real photos, and a
-          direct line to a sales agent.
+          Quality and affordable car from Asia. Let us be your number one automobile delearship
         </p>
         <div className="mt-8">
           <Suspense fallback={<div className="h-12 w-full max-w-xl rounded-sm bg-steel/60" />}>
