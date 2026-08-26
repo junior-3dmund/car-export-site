@@ -20,7 +20,7 @@ export async function POST(req) {
   try {
     await resend.emails.send({
       from: "Route One Motors <inquiries@yourdomain.com>",
-      to: process.env.INQUIRY_TO_EMAIL,
+      to: "kingzamazingimport@gmail.com",
       subject: `New inquiry: ${carName} (#${carId})`,
       text: `From: ${name} <${email}>\n\n${message}`
     });
