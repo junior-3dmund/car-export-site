@@ -26,7 +26,7 @@ export default function CarCard({ car }) {
           {car.transmission}
         </p>
         <p className="text-ignition font-mono font-medium mt-3">
-          ${car.price.toLocaleString()}
+          GH₵ {car.price.toLocaleString()}
         </p>
       </div>
     </Link>

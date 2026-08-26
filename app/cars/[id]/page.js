@@ -19,7 +19,7 @@ export default async function CarDetailPage({ params }) {
       <div>
         <h1 className="font-display text-3xl font-bold">{car.name}</h1>
         <p className="text-ignition font-mono text-2xl mt-2">
-          ${car.price.toLocaleString()}
+          GH₵ {car.price.toLocaleString()}
         </p>
         <p className="text-silver mt-4">{car.description}</p>
 
