@@ -1,0 +1,41 @@
+[
+  {
+    "id": "1",
+    "name": "Toyota Land Cruiser GXR",
+    "brand": "Toyota",
+    "year": 2024,
+    "price": 62000,
+    "mileage": 0,
+    "fuel": "Petrol",
+    "transmission": "Automatic",
+    "origin_port": "DXB",
+    "image": "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=1200&q=80",
+    "description": "Brand new Land Cruiser GXR, full option, ready for export."
+  },
+  {
+    "id": "2",
+    "name": "Nissan Patrol Nismo",
+    "brand": "Nissan",
+    "year": 2023,
+    "price": 71000,
+    "mileage": 4500,
+    "fuel": "Petrol",
+    "transmission": "Automatic",
+    "origin_port": "JEA",
+    "image": "https://images.unsplash.com/photo-1622199697388-16b5f01f0dd1?w=1200&q=80",
+    "description": "Low mileage Patrol Nismo with performance package."
+  },
+  {
+    "id": "3",
+    "name": "Ford F-150 Raptor",
+    "brand": "Ford",
+    "year": 2024,
+    "price": 68000,
+    "mileage": 0,
+    "fuel": "Petrol",
+    "transmission": "Automatic",
+    "origin_port": "HOU",
+    "image": "https://images.unsplash.com/photo-1605893477799-b99e3b8b93fe?w=1200&q=80",
+    "description": "New Raptor, factory export spec, container-ready."
+  }
+]

@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+/* Signature element: an animated dashed shipping-route line used under the
+   hero search bar and as a divider — ties the visual language back to
+   the site's actual job (moving cars from an origin port to a buyer). */
+.route-line {
+  position: relative;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    #ff5a1f 0,
+    #ff5a1f 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  overflow: hidden;
+}
+.route-line::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #ff5a1f;
+  box-shadow: 0 0 12px 2px rgba(255, 90, 31, 0.7);
+  animation: route-travel 3.5s linear infinite;
+}
+@keyframes route-travel {
+  0% {
+    left: -2%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .route-line::after {
+    animation: none;
+    left: 40%;
+  }
+}
+
+.port-tag {
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid #ff5a1f;
+  outline-offset: 2px;
+}
