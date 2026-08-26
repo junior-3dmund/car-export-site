@@ -9,7 +9,6 @@ export default async function HomePage() {
   return (
     <>
       <section className="max-w-6xl mx-auto px-6 pt-20 pb-16">
-        <p className="port-tag text-ignition text-sm mb-4">DXB → WORLDWIDE</p>
         <h1 className="font-display text-4xl sm:text-6xl font-bold leading-[1.05] max-w-3xl">
           Buy the car. We handle the ocean in between.
         </h1>
