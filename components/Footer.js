@@ -14,8 +14,10 @@ export default function Footer() {
           <p className="text-silver">+233 55 188 9899</p>
         </div>
         <div>
-          <p className="text-offwhite font-medium mb-2">Shipping ports</p>
-          <p className="text-silver port-tag">DXB · JEA · HOU · SHA</p>
+          <p className="text-offwhite font-medium mb-2">About Us</p>
+          <p className="text-silver">
+            Quality and affordable vehicles from Asia with trusted service and customer care.
+          </p>
         </div>
       </div>
       <div className="text-center text-xs text-silver pb-6">
