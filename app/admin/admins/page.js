@@ -6,6 +6,8 @@ import { supabase } from "@/lib/supabaseClient";
 export default function AdminsPage() {
   const [admins, setAdmins] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [actionLoading, setActionLoading] = useState(false);
+  const [removingId, setRemovingId] = useState(null);
   const [email, setEmail] = useState("");
   const [userId, setUserId] = useState("");
   const [adminKey, setAdminKey] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('adminKey') || '' : '');
@@ -34,36 +36,58 @@ export default function AdminsPage() {
 
   async function loadAdmins() {
     setLoading(true);
-    const res = await fetch("/api/admins", { headers: await getHeaders() });
-    if (res.ok) setAdmins(await res.json());
+    try {
+      const res = await fetch("/api/admins", { headers: await getHeaders() });
+      if (res.ok) setAdmins(await res.json());
+      else {
+        const body = await res.json().catch(() => ({}));
+        alert(body.error || "Failed to load admins");
+      }
+    } catch (err) {
+      alert("Failed to load admins");
+    }
     setLoading(false);
   }
 
   async function handleAdd(e) {
     e.preventDefault();
-    const res = await fetch("/api/admins", {
-      method: "POST",
-      headers: await getHeaders(),
-      body: JSON.stringify({ email: email || null, user_id: userId || null })
-    });
-    if (res.ok) {
-      setEmail("");
-      setUserId("");
-      loadAdmins();
-    } else {
+    setActionLoading(true);
+    try {
+      const res = await fetch("/api/admins", {
+        method: "POST",
+        headers: await getHeaders(),
+        body: JSON.stringify({ email: email || null, user_id: userId || null })
+      });
+      const body = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setEmail("");
+        setUserId("");
+        loadAdmins();
+      } else {
+        alert(body.error || "Failed to add admin");
+      }
+    } catch (err) {
       alert("Failed to add admin");
     }
+    setActionLoading(false);
   }
 
   async function handleRemove(a) {
     if (!confirm(`Remove admin ${a.email || a.user_id}?`)) return;
-    const res = await fetch("/api/admins", {
-      method: "DELETE",
-      headers: await getHeaders(),
-      body: JSON.stringify({ id: a.id, email: a.email, user_id: a.user_id })
-    });
-    if (res.ok) loadAdmins();
-    else alert("Failed to remove admin");
+    setRemovingId(a.id);
+    try {
+      const res = await fetch("/api/admins", {
+        method: "DELETE",
+        headers: await getHeaders(),
+        body: JSON.stringify({ id: a.id, email: a.email, user_id: a.user_id })
+      });
+      const body = await res.json().catch(() => ({}));
+      if (res.ok) loadAdmins();
+      else alert(body.error || "Failed to remove admin");
+    } catch (err) {
+      alert("Failed to remove admin");
+    }
+    setRemovingId(null);
   }
 
   return (
@@ -97,7 +121,11 @@ export default function AdminsPage() {
                   <td className="py-2">{a.email}</td>
                   <td>{a.user_id}</td>
                   <td>{a.role}</td>
-                  <td className="text-right"><button onClick={() => handleRemove(a)} className="text-red-400">Remove</button></td>
+                  <td className="text-right">
+                    <button disabled={removingId === a.id} onClick={() => handleRemove(a)} className="text-red-400">
+                      {removingId === a.id ? "Removing..." : "Remove"}
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>

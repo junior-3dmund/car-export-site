@@ -41,17 +41,21 @@ export default function AdminNotificationsPage() {
         body: JSON.stringify({ title, message })
       });
 
+      const body = await res.json().catch(() => ({}));
       if (res.ok) {
         setStatus("sent");
         setTitle("");
         setMessage("");
       } else {
         setStatus("error");
+        setError(body.error || "Failed to publish notice");
       }
     } catch (err) {
       setStatus("error");
     }
   }
+
+  const [error, setError] = useState("");
 
   return (
     <main className="max-w-4xl mx-auto px-6 py-12">
@@ -59,8 +63,9 @@ export default function AdminNotificationsPage() {
         <h1 className="font-display text-2xl font-bold">Admin — Send Notification</h1>
         <p className="text-silver text-sm mt-2">Create an admin notice to show to users.</p>
       </div>
-
       <form onSubmit={handleSubmit} className="space-y-4 bg-steel border border-steel2 p-6 rounded-sm">
+        {status === "sent" && <div className="p-3 bg-green-800 text-charcoal">Notice published.</div>}
+        {status === "error" && <div className="p-3 bg-red-800 text-charcoal">{error || "Failed to publish notice."}</div>}
         <label className="block">
           <span className="block text-sm text-silver mb-2">Admin API Key</span>
           <input
