@@ -21,6 +21,19 @@ async function writeNotifications(data) {
 }
 
 export async function GET() {
+  if (supabaseAdmin) {
+    try {
+      const { data, error } = await supabaseAdmin
+        .from("notifications")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return NextResponse.json(data || []);
+    } catch (e) {
+      // fallback to file store
+    }
+  }
+
   const items = await readNotifications();
   return NextResponse.json(items);
 }
@@ -51,6 +64,25 @@ export async function POST(request) {
   }
 
   const body = await request.json();
+
+  // If supabaseAdmin is configured, persist to the DB
+  if (supabaseAdmin) {
+    try {
+      const payload = {
+        title: body.title || "Admin notice",
+        message: body.message || "",
+        read: false,
+      };
+      const { data, error } = await supabaseAdmin.from("notifications").insert(payload).select().single();
+      if (error) throw error;
+      return NextResponse.json(data, { status: 201 });
+    } catch (e) {
+      console.error("Supabase insert failed:", e.message || e);
+      return NextResponse.json({ error: "failed" }, { status: 500 });
+    }
+  }
+
+  // Fallback to file-based store
   const items = await readNotifications();
 
   const id = Date.now().toString();
@@ -59,7 +91,7 @@ export async function POST(request) {
     title: body.title || "Admin notice",
     message: body.message || "",
     timestamp: new Date().toISOString(),
-    read: false
+    read: false,
   };
 
   items.unshift(newItem);

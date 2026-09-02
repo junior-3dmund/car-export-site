@@ -45,19 +45,38 @@ export async function POST(request) {
 
   const body = await request.json();
   const { id } = body;
+
+  if (supabaseAdmin) {
+    try {
+      if (id == null) {
+        // mark all as read
+        const { error } = await supabaseAdmin.from("notifications").update({ read: true }).neq("id", "");
+        if (error) throw error;
+        return NextResponse.json({ ok: true });
+      }
+      const { data, error } = await supabaseAdmin.from("notifications").update({ read: true }).eq("id", id).select().single();
+      if (error) return NextResponse.json({ ok: false }, { status: 404 });
+      return NextResponse.json({ ok: true });
+    } catch (e) {
+      console.error('Supabase update failed:', e.message || e);
+      return NextResponse.json({ ok: false }, { status: 500 });
+    }
+  }
+
+  const { id: _id } = body;
   const items = await readNotifications();
   let changed = false;
 
   const updated = items.map((it) => {
-    if (id == null) return { ...it, read: true };
-    if (it.id === id) {
+    if (_id == null) return { ...it, read: true };
+    if (it.id === _id) {
       changed = true;
       return { ...it, read: true };
     }
     return it;
   });
 
-  if (changed || id == null) {
+  if (changed || _id == null) {
     await writeNotifications(updated);
     return NextResponse.json({ ok: true });
   }
