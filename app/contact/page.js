@@ -29,10 +29,10 @@ export default function ContactPage() {
   }
 
   return (
-    <main className="max-w-4xl mx-auto px-6 py-16">
+    <main className="max-w-4xl mx-auto px-6 py-12">
       <div className="mb-8">
         <p className="text-ignition text-sm uppercase tracking-[0.2em]">Contact</p>
-        <h1 className="font-display text-4xl font-bold mt-3">Send us a message</h1>
+        <h1 className="font-display text-4xl font-bold mt-3 text-center md:text-left">Send us a message</h1>
       </div>
 
       {status === "sent" ? (
@@ -99,7 +99,7 @@ export default function ContactPage() {
           <button
             type="submit"
             disabled={status === "sending"}
-            className="bg-ignition text-charcoal font-medium px-6 py-3 rounded-sm hover:brightness-110 transition disabled:opacity-60"
+            className="bg-ignition text-charcoal font-medium px-6 py-3 rounded-sm hover:brightness-110 transition disabled:opacity-60 w-full md:w-auto"
           >
             {status === "sending" ? "Sending..." : "Send message"}
           </button>
