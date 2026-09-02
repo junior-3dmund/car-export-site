@@ -53,7 +53,7 @@ export default function InquiryForm({ carId, carName }) {
       />
       <button
         disabled={status === "sending"}
-        className="bg-ignition text-charcoal font-medium px-5 py-2 rounded-sm hover:brightness-110 transition disabled:opacity-60"
+        className="bg-ignition text-charcoal font-medium px-5 py-2 rounded-sm hover:brightness-110 transition disabled:opacity-60 w-full sm:w-auto"
       >
         {status === "sending" ? "Sending..." : "Send inquiry"}
       </button>
