@@ -2,11 +2,33 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function AdminNotificationsPage() {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [adminKey, setAdminKey] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('adminKey') || '' : '');
+  const [user, setUser] = useState(null);
+  const [email, setEmail] = useState("");
+  const [passwordLogin, setPasswordLogin] = useState("");
+
+  async function loadUser() {
+    if (!supabase) return;
+    const { data } = await supabase.auth.getSession();
+    setUser(data?.session?.user ?? null);
+  }
+
+  async function signInWithEmail() {
+    if (!supabase) return;
+    const { error } = await supabase.auth.signInWithPassword({ email, password: passwordLogin });
+    if (!error) await loadUser();
+  }
+
+  async function signOut() {
+    if (!supabase) return;
+    await supabase.auth.signOut();
+    setUser(null);
+  }
   const [status, setStatus] = useState("idle");
 
   async function handleSubmit(e) {
@@ -86,6 +108,24 @@ export default function AdminNotificationsPage() {
           {status === "error" && <div className="text-red-400 text-sm">Failed to publish.</div>}
         </div>
       </form>
+
+      <div className="mt-6 bg-steel border border-steel2 p-4 rounded-sm">
+        <h3 className="font-medium mb-2">Alternative: Sign in with Supabase</h3>
+        {user ? (
+          <div>
+            <div className="text-sm text-silver mb-2">Signed in as {user.email}</div>
+            <button onClick={signOut} className="bg-steel2 px-3 py-2 rounded-sm">Sign out</button>
+          </div>
+        ) : (
+          <div className="grid sm:grid-cols-3 gap-2 items-center">
+            <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="bg-charcoal border border-steel2 rounded-sm px-3 py-2 text-sm sm:col-span-1" />
+            <input value={passwordLogin} onChange={(e) => setPasswordLogin(e.target.value)} placeholder="Password" type="password" className="bg-charcoal border border-steel2 rounded-sm px-3 py-2 text-sm sm:col-span-1" />
+            <div>
+              <button onClick={signInWithEmail} className="bg-ignition text-charcoal px-3 py-2 rounded-sm">Sign in</button>
+            </div>
+          </div>
+        )}
+      </div>
 
       <div className="mt-6 text-sm text-silver">
         <p>Note: This admin page is not authenticated. Restrict access or secure the API in production.</p>

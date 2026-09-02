@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { supabase } from "@/lib/supabaseClient";
 
 const FIELDS = [
   "name",
@@ -19,6 +20,27 @@ export default function AdminPage() {
   const [password, setPassword] = useState("");
   const [unlocked, setUnlocked] = useState(false);
   const [status, setStatus] = useState("idle");
+  const [user, setUser] = useState(null);
+  const [email, setEmail] = useState("");
+  const [passwordLogin, setPasswordLogin] = useState("");
+
+  async function loadUser() {
+    if (!supabase) return;
+    const { data } = await supabase.auth.getSession();
+    setUser(data?.session?.user ?? null);
+  }
+
+  async function signInWithEmail() {
+    if (!supabase) return;
+    const { error } = await supabase.auth.signInWithPassword({ email, password: passwordLogin });
+    if (!error) await loadUser();
+  }
+
+  async function signOut() {
+    if (!supabase) return;
+    await supabase.auth.signOut();
+    setUser(null);
+  }
 
   async function handleAdd(e) {
     e.preventDefault();
@@ -26,9 +48,17 @@ export default function AdminPage() {
     const form = new FormData(e.target);
     const car = Object.fromEntries(FIELDS.map((f) => [f, form.get(f)]));
 
+    const headers = { "Content-Type": "application/json" };
+    // if signed in with supabase, include access token
+    try {
+      const { data } = await supabase?.auth.getSession();
+      const token = data?.session?.access_token;
+      if (token) headers["Authorization"] = `Bearer ${token}`;
+    } catch (e) {}
+
     const res = await fetch("/api/admin/cars", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers,
       body: JSON.stringify({ password, car })
     });
 

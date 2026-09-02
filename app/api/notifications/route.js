@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 const filePath = path.join(process.cwd(), "data", "notifications.json");
 
@@ -24,11 +25,26 @@ export async function GET() {
 }
 
 export async function POST(request) {
+  // Allow either an ADMIN_API_KEY via header, or a valid Supabase access token
   const adminKey = process.env.ADMIN_API_KEY;
-  if (!adminKey) return NextResponse.json({ error: "admin key not configured" }, { status: 500 });
-
   const provided = request.headers.get("x-admin-key");
-  if (provided !== adminKey) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  if (adminKey && provided === adminKey) {
+    // allowed
+  } else {
+    // try Supabase token
+    const auth = request.headers.get("authorization");
+    if (!auth || !auth.startsWith("Bearer ") || !supabaseAdmin) {
+      return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    }
+
+    const token = auth.split(" ")[1];
+    try {
+      const { data } = await supabaseAdmin.auth.getUser(token);
+      if (!data?.user) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    } catch (e) {
+      return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    }
+  }
 
   const body = await request.json();
   const items = await readNotifications();
