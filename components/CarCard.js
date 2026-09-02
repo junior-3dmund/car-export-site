@@ -20,12 +20,11 @@ export default function CarCard({ car }) {
         </span>
       </div>
       <div className="p-4">
-        <p className="font-display font-bold text-lg leading-tight">{car.name}</p>
-        <p className="text-silver text-sm mt-1">
-          {car.year} · {car.mileage === 0 ? "New" : `${car.mileage.toLocaleString()} km`} ·{" "}
-          {car.transmission}
+        <p className="font-display font-bold text-base sm:text-lg leading-tight">{car.name}</p>
+        <p className="text-silver text-xs sm:text-sm mt-1">
+          {car.year} · {car.mileage === 0 ? "New" : `${car.mileage.toLocaleString()} km`} · {car.transmission}
         </p>
-        <p className="text-ignition font-mono font-medium mt-3">
+        <p className="text-ignition font-mono font-medium mt-3 text-sm sm:text-base">
           GH₵ {car.price.toLocaleString()}
         </p>
       </div>
