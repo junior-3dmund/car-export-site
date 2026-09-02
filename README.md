@@ -51,6 +51,24 @@ through `/api/admin/cars`, using the service role key server-side.
 3. Copy your Project URL, anon key, and service role key from
    Settings → API into `.env.local` (copy `.env.example` to start).
 
+### Admins table
+
+Create an `admins` table to restrict admin access to specific Supabase users:
+
+```sql
+create table admins (
+   id uuid primary key default gen_random_uuid(),
+   user_id text,
+   email text,
+   role text,
+   created_at timestamp default now()
+);
+
+insert into admins (user_id, email, role) values ('<supabase-user-id>', 'you@example.com', 'admin');
+```
+
+The API routes now check the `admins` table for membership; add rows for any Supabase users you want to grant admin access.
+
 ## 3. Set up image hosting (Cloudinary — free tier)
 
 1. Create an account at cloudinary.com

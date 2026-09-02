@@ -1,4 +1,5 @@
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { isAdminByUserId, isAdminByEmail } from "@/lib/admins";
 
 export async function POST(req) {
   const authHeader = req.headers.get("authorization");
@@ -14,7 +15,12 @@ export async function POST(req) {
     const token = authHeader.split(" ")[1];
     try {
       const { data } = await supabaseAdmin.auth.getUser(token);
-      if (data?.user) authorized = true;
+      const user = data?.user;
+      if (user) {
+        // require admin membership in the admins table
+        const admin = await isAdminByUserId(user.id) || await isAdminByEmail(user.email);
+        if (admin) authorized = true;
+      }
     } catch (e) {
       // ignore
     }

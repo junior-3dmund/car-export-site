@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { isAdminByUserId, isAdminByEmail } from "@/lib/admins";
 
 const filePath = path.join(process.cwd(), "data", "notifications.json");
 
@@ -32,7 +34,10 @@ export async function POST(request) {
     const token = auth.split(" ")[1];
     try {
       const { data } = await supabaseAdmin.auth.getUser(token);
-      if (!data?.user) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+      const user = data?.user;
+      if (!user) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+      const admin = await isAdminByUserId(user.id) || await isAdminByEmail(user.email);
+      if (!admin) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
     } catch (e) {
       return NextResponse.json({ error: "unauthorized" }, { status: 401 });
     }
