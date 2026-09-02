@@ -8,7 +8,7 @@ export default async function CarDetailPage({ params }) {
   if (!car) notFound();
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-12 grid md:grid-cols-2 gap-10">
+    <div className="max-w-6xl mx-auto px-6 py-8 grid gap-6 md:grid-cols-2 md:gap-10">
       <div className="relative aspect-[4/3] bg-steel2 rounded-sm overflow-hidden">
         <Image src={car.image} alt={car.name} fill className="object-cover" />
         <span className="absolute top-3 left-3 bg-charcoal/80 text-ignition text-xs port-tag px-2 py-1 rounded-sm">
@@ -18,12 +18,12 @@ export default async function CarDetailPage({ params }) {
 
       <div>
         <h1 className="font-display text-3xl font-bold">{car.name}</h1>
-        <p className="text-ignition font-mono text-2xl mt-2">
+        <p className="text-ignition font-mono text-2xl md:text-3xl mt-2">
           GH₵ {car.price.toLocaleString()}
         </p>
         <p className="text-silver mt-4">{car.description}</p>
 
-        <dl className="grid grid-cols-2 gap-4 mt-8 text-sm font-mono">
+        <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 text-sm font-mono">
           <Spec label="Year" value={car.year} />
           <Spec
             label="Mileage"
