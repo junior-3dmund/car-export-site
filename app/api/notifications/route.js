@@ -24,6 +24,12 @@ export async function GET() {
 }
 
 export async function POST(request) {
+  const adminKey = process.env.ADMIN_API_KEY;
+  if (!adminKey) return NextResponse.json({ error: "admin key not configured" }, { status: 500 });
+
+  const provided = request.headers.get("x-admin-key");
+  if (provided !== adminKey) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+
   const body = await request.json();
   const items = await readNotifications();
 

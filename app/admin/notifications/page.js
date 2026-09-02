@@ -6,6 +6,7 @@ import Link from "next/link";
 export default function AdminNotificationsPage() {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
+  const [adminKey, setAdminKey] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('adminKey') || '' : '');
   const [status, setStatus] = useState("idle");
 
   async function handleSubmit(e) {
@@ -14,7 +15,7 @@ export default function AdminNotificationsPage() {
     try {
       const res = await fetch("/api/notifications", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-admin-key": adminKey },
         body: JSON.stringify({ title, message })
       });
 
@@ -38,6 +39,17 @@ export default function AdminNotificationsPage() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4 bg-steel border border-steel2 p-6 rounded-sm">
+        <label className="block">
+          <span className="block text-sm text-silver mb-2">Admin API Key</span>
+          <input
+            value={adminKey}
+            onChange={(e) => { setAdminKey(e.target.value); try { localStorage.setItem('adminKey', e.target.value); } catch {} }}
+            required
+            type="password"
+            className="w-full bg-charcoal border border-steel2 rounded-sm px-3 py-2 text-sm"
+            placeholder="Enter admin API key"
+          />
+        </label>
         <label className="block">
           <span className="block text-sm text-silver mb-2">Title</span>
           <input
